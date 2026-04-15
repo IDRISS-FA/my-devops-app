@@ -20,18 +20,18 @@ pipeline {
         }
         
         stage('Install Dependencies') {
-            steps {
-                sh 'npm ci'
-                echo "📚 Dependencies installed"
-            }
-        }
-        
-        stage('Run Tests') {
-            steps {
-                sh 'npm test'
-                echo "✅ Tests passed"
-            }
-        }
+    steps {
+        sh 'docker run --rm -v $PWD:/app -w /app node:18-alpine npm ci'
+        echo "📚 Dependencies installed"
+    }
+}
+
+    stage('Run Tests') {
+        steps {
+            sh 'docker run --rm -v $PWD:/app -w /app node:18-alpine npm test'
+            echo "✅ Tests passed"
+    }
+}
         
         stage('Build Docker Image') {
             steps {
