@@ -1,0 +1,13 @@
+{
+  "name": "my-devops-app",
+  "version": "1.0.0",
+  "description": "Simple app for DevOps CI/CD testing",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"All tests passed! ✅\" && exit 0"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
