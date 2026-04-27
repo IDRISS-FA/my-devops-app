@@ -27,8 +27,20 @@ pipeline {
 }    
         stage('Install Dependencies') {
             steps {
-                sh 'docker run --rm -v $PWD:/app -w /app node:18-alpine npm install'
-                echo "📚 Dependencies installed"
+        // script {} block lets us use Groovy code
+                script {
+            // Get the UID of the Jenkins user (usually 1000)
+                    def uid = sh(script: 'id -u', returnStdout: true).trim()
+            
+            // Run Docker container with the same UID
+            // -u ${uid}:${uid} = run as user with UID 1000
+            // -v $PWD:/app = mount current directory to /app  
+            // -w /app = set working directory to /app
+            // node:18-alpine = use Node.js image
+            // sh -c 'npm install && npm test' = run both commands
+                    sh "docker run --rm -u ${uid}:${uid} -v \$PWD:/app -w /app node:18-alpine sh -c 'npm install && npm test'"
+        }
+        echo "✅ Dependencies installed and tests passed"
     }
 }
 
