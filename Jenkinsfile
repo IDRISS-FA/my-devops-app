@@ -18,7 +18,13 @@ pipeline {
                 echo "📦 Code checked out successfully"
             }
         }
-        
+        stage('Debug - Show Current Directory') {
+            steps {
+                sh 'pwd'
+                sh 'ls -la'
+                sh 'ls -la package.json'
+    }
+}    
         stage('Install Dependencies') {
             steps {
                 sh 'docker run --rm -v $PWD:/app -w /app node:18-alpine npm install'
